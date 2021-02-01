@@ -21,5 +21,6 @@ unsigned char *extractMessage(const unsigned char *message_in, int length) {
 
     // TODO: write your code here
 
+
     return message_out;
 }
