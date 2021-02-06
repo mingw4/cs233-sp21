@@ -17,5 +17,12 @@ module mux4(out, A, B, C, D, control);
     output      out;
     input       A, B, C, D;
     input [1:0] control;
+    wire     w1, w2;
+   // use control[0] and  control[1] as inputs to multiplexers
+   // ADD YOUR CODE HERE
+   mux2 muxx1(w1, A, B, control[0]);
+   mux2 muxx2(w2, C, D, control[0]);
+   
+   mux2 muxx3(out, w1, w2, control[1]);
 
 endmodule // mux4
