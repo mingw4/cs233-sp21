@@ -10,11 +10,11 @@ module alu32_test;
              A = 8; B = 4; control = `ALU_ADD; // try adding 8 and 4
         # 10 A = 2; B = 5; control = `ALU_SUB; // try subtracting 5 from 2
         // add more test cases here!
-
+        # 10 A = 255; B = -14; control = 'ALU_SUB;
         # 10 $finish;
     end
 
     wire [31:0] out;
-    wire overflow, zero, negative;
+    wire overflow, zero, negtive;
     alu32 a(out, overflow, zero, negative, A, B, control);  
 endmodule // alu32_test
