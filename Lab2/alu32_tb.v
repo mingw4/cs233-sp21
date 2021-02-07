@@ -17,4 +17,8 @@ module alu32_test;
     wire [31:0] out;
     wire overflow, zero, negtive;
     alu32 a(out, overflow, zero, negative, A, B, control);  
+    initial begin
+        $display("out, overflow, zero, negative, A, B, control");
+        $monitor("%d %d %d %d %d %d %d (at time %t)", out, overflow, zero, negative, A, B, control, $time);
+    end
 endmodule // alu32_test

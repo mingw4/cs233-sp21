@@ -24,7 +24,7 @@ module alu1_test;
     wire out, carryout;
     alu1 a(out, carryout, A, B, cin, control);
     initial begin
-        $display("A B cin control out carryout");
-        $monitor("%d %d %d %d %d %d (at time %t)", A, B, cin, control, out, carryout, $time);
+        $display("out, carryout, A, B, cin, control");
+        $monitor("%d %d %d %d %d %d (at time %t)", out, carryout, A, B, cin, control, $time);
     end
 endmodule
