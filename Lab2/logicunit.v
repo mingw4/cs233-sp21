@@ -3,6 +3,7 @@ module logicunit(out, A, B, control);
     output      out;
     input       A, B;
     input [1:0] control;
+    wire w1, w2, w3, w4;
 
     and a1(w1, A, B);
     or o1(w2, A, B);
