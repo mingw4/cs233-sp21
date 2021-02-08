@@ -1,0 +1,42 @@
+Grades for version committed on time
+	keypad: 25.0 / 25
+			*Passed test: abcdefg = 48
+			*Passed test: abcdefg = 28
+			*Passed test: abcdefg = 18
+			*Passed test: abcdefg = 44
+			*Passed test: abcdefg = 24
+			*Passed test: abcdefg = 14
+			*Passed test: abcdefg = 42
+			*Passed test: abcdefg = 22
+			*Passed test: abcdefg = 12
+			*Passed test: abcdefg = 21
+			*Passed test: abcdefg = 00
+		
+	extract_message: 0.0 / 25
+			*Failed test: simple
+				*Encoded message: [104, 13, 104, 51, 89, 127, 127, 0] (h
+h3Y).
+				*Expected decode: [122, 104, 98, 119, 120, 109, 117, 0] (zhbwxmu)
+				*Actual decode: [0, 0, 0, 0, 0, 0, 0, 0] ()
+			*Failed test: 3 words
+				*Encoded message: [83, 38, 43, 83, 76, 255, 127, 0, 206, 128, 117, 47, 144, 255, 255, 0, 77, 165, 120, 80, 133, 255, 189, 0, 51, 74, 197, 96, 142, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0] (S&+SLÿÎu/ÿÿM¥xPÿ½3JÅ`ÿÿ).
+				*Expected decode: [109, 111, 114, 116, 105, 102, 121, 32, 108, 105, 109, 105, 116, 108, 101, 115, 115, 32, 115, 101, 108, 102, 45, 114, 101, 115, 116, 114, 97, 105, 110, 116, 0] (mortify limitless self-restraint)
+				*Actual decode: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] ()
+			*Failed test: 5 words
+				*Encoded message: [202, 197, 229, 233, 12, 255, 239, 0, 195, 5, 226, 161, 84, 255, 247, 0, 200, 208, 72, 64, 189, 255, 253, 0, 157, 24, 71, 66, 24, 255, 223, 0, 37, 8, 51, 16, 1, 63, 63, 0] (ÊÅåéÿïÃâ¡Tÿ÷ÈÐH@½ÿýGBÿß%3??).
+				*Expected decode: [110, 97, 118, 121, 32, 108, 111, 111, 107, 101, 114, 32, 112, 108, 117, 109, 112, 32, 112, 117, 114, 112, 111, 115, 101, 108, 101, 115, 115, 32, 108, 97, 117, 100, 97, 98, 108, 101, 0] (navy looker plump purposeless laudable)
+				*Actual decode: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] ()
+			*Failed test: Thousands of words
+				*Output hidden (you don't want to know...)
+		
+	count_ones: 30.0 / 30
+			*Passed test: 2
+			*Passed test: 55
+			*Passed test: 42
+			*Passed test: 0xffffffff
+			*Passed test: 0x12345678
+			*Passed test: 0x55555555
+		
+Total: 55.0 / 80
+
+Final Score: 55.0 / 80
