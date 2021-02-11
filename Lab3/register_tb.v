@@ -24,6 +24,22 @@ module test;
 
         // Add your own testcases here!
 
+        # 10
+
+          enable = 1;
+          d = 30;
+
+        # 10
+
+          enable = 1;
+          d = 100;
+
+        # 10
+
+          reset = 1;
+          d = 30;
+
+
         # 700 $finish;
     end
     

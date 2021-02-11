@@ -13,6 +13,7 @@ module alu32_test;
         # 10 A = 14; B = -14; control = `ALU_SUB;
         # 10 A = 1010; B = 1111; control = `ALU_AND;
         # 10 A = 32'b10101010; B = 32'b1111000; control = `ALU_OR;
+        # 10 A = 32'h662e385; B = 32'h37c33ed1; control = 3'h1;
         # 10 $finish;
     end
 

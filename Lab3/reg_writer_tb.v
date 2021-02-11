@@ -40,6 +40,17 @@ module reg_writer_test;
 	# 2 data = 32'hdFA;
 	
         // Add your own testcases here!
+        # 6 // Finish provided run
+
+        # 2 reset = 1; // Reset the machine 
+	    # 2 reset = 0;
+
+        # 2 go = 1; data = 32'hdFF; direction = 0;
+        # 2 go = 0; data = 32'hd03; 
+        # 2 data = 32'hd21;
+        # 2 data = 32'hd43;
+        # 2 data = 32'hd09;
+        # 2 data = 32'hd08;
 
         #10 $finish;
     end
