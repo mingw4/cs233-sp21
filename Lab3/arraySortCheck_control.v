@@ -6,8 +6,8 @@ module arraySortCheck_control(sorted, done, load_input, load_index, select_index
 
 	wire sGarbage, sStart, s1, s2, s3, s4, sSortedDone, sunSortedDone, s0SortedDone, s0unSortedDone;
 
-	wire sGarbage_next = reset | (s0Garbage & ~go) | (sStart & zero_length_array);
-	wire sStart_next = (s0Garbage & go) & ~reset;
+	wire sGarbage_next = reset | (sGarbage & ~go) | (sStart & zero_length_array);
+	wire sStart_next = (sGarbage & go) & ~reset;
 	
 	wire s1_next = ~reset & sStart & ~zero_length_array & ~end_of_array & ~inversion_found;
 	wire s2_next = ~reset & s1 & ~zero_length_array & ~end_of_array & ~inversion_found;
@@ -31,6 +31,12 @@ module arraySortCheck_control(sorted, done, load_input, load_index, select_index
 	dffe fs0unSortedDone(s0unSortedDone, s0unSortedDone_next, clock, 1'b1, 1'b0);
 	dffe fsSortedDone(sSortedDone, sSortedDone_next, clock, 1'b1, 1'b0);
 	dffe fsunSortedDone(sunSortedDone, sunSortedDone_next, clock, 1'b1, 1'b0);
+
+	assign sorted = sGarbage | sSortedDone | s0SortedDone;
+	asisgn done = sGarbage | s0SortedDone | s0unSortedDone | sSortedDone | sunSortedDone;
+	assign load_input = sStart;
+	assign load_index = ~sGarbage;
+	sssign select_index = s1 | s2 | s3 | s4 | sSortedDone | sunSortedDone;
 
 
 
