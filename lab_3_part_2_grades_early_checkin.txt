@@ -1,0 +1,6 @@
+Grades for version committed on time
+	arraySortCheck_control: 0.0 / 80.0
+		
+Total: 0.0 / 80.0
+
+Final Score: 0.0 / 80.0
