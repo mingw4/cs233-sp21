@@ -33,10 +33,10 @@ module arraySortCheck_control(sorted, done, load_input, load_index, select_index
 	dffe fsunSortedDone(sunSortedDone, sunSortedDone_next, clock, 1'b1, 1'b0);
 
 	assign sorted = sGarbage | sSortedDone | s0SortedDone;
-	asisgn done = sGarbage | s0SortedDone | s0unSortedDone | sSortedDone | sunSortedDone;
+	assign done = sGarbage | s0SortedDone | s0unSortedDone | sSortedDone | sunSortedDone;
 	assign load_input = sStart;
 	assign load_index = ~sGarbage;
-	sssign select_index = s1 | s2 | s3 | s4 | sSortedDone | sunSortedDone;
+	assign select_index = s1 | s2 | s3 | s4 | sSortedDone | sunSortedDone;
 
 
 
