@@ -23,7 +23,7 @@ module arraySortCheck_control(sorted, done, load_input, load_index, select_index
 	dffe fsNo(sNo, sNo_next, clock, 1'b1 , 1'b0);
 
 	dffe fsStart(sStart, sGarbage_next, clock, 1'b1 , 1'b0);
-	dffe fsWhile(sProcess, sProcess_next, clock, 1'b1 , 1'b0);
+	dffe fsProcess(sProcess, sProcess_next, clock, 1'b1 , 1'b0);
 
 
 	assign done = sNo | sYes;
