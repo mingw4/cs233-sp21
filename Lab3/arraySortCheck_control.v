@@ -18,7 +18,7 @@ module arraySortCheck_control(sorted, done, load_input, load_index, select_index
 
 	dffe fsGarbage(sGarbage, sGarbage_next, clock, 1'b1 , 1'b0);
 
-	dffe fsIncrement(sForward, sForward_next, clock, 1'b1 , 1'b0);
+	dffe fsForward(sForward, sForward_next, clock, 1'b1 , 1'b0);
 	dffe fsYes(sYes, sYes_next, clock, 1'b1 , 1'b0);
 	dffe fsNo(sNo, sNo_next, clock, 1'b1 , 1'b0);
 
