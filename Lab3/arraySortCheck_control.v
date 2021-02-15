@@ -9,7 +9,7 @@ module arraySortCheck_control(sorted, done, load_input, load_index, select_index
 	wire sProcess_next = ~reset & (sForward | (sStart & ~go));
 	wire sForward_next = ~reset & ~end_of_array & ~inversion_found & sProcess;
 
-	wire sYes_next = ~reset & ((~inversion_found & sProcess & end_of_array) | (sSorted & ~go));
+	wire sYes_next = ~reset & ((~inversion_found & sProcess & end_of_array) | (sYes & ~go));
 	wire sNo_next = ~reset & ((inversion_found & ~end_of_array & sProcess ) | (sNo & ~go));
 
 
