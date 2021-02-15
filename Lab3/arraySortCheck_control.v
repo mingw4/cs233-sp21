@@ -30,5 +30,6 @@ module arraySortCheck_control(sorted, done, load_input, load_index, select_index
 	assign load_index = sForward | sStart;
 	assign select_index = sForward;
 	assign sorted = sYes;
+	assign load_input = sStart;
 
 endmodule
