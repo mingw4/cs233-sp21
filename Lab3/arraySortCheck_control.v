@@ -9,8 +9,8 @@ module arraySortCheck_control(sorted, done, load_input, load_index, select_index
 	wire sProcess_next = ~reset & (sForward | (sStart & ~go));
 	wire sForward_next = ~reset & ~end_of_array & ~inversion_found & sProcess;
 
-	wire sYes_next = ~reset & ((~inversion_found & sProcess & end_of_array ) | (sSorted & ~go));
-	wire sUnsorted_next = ~reset & ((inversion_found & ~end_of_array & sProess ) | (sNo & ~go));
+	wire sYes_next = ~reset & ((~inversion_found & sProcess & end_of_array) | (sSorted & ~go));
+	wire sNo_next = ~reset & ((inversion_found & ~end_of_array & sProcess ) | (sNo & ~go));
 
 
 	wire sGarbage_next= reset | (sGarbage & ~go);
@@ -19,8 +19,8 @@ module arraySortCheck_control(sorted, done, load_input, load_index, select_index
 	dffe fsGarbage(sGarbage, sGarbage_next, clock, 1'b1 , 1'b0);
 
 	dffe fsIncrement(sForward, sForward_next, clock, 1'b1 , 1'b0);
-	dffe fsSorted(sYes, sYes_next, clock, 1'b1 , 1'b0);
-	dffe fsUnsorted(sNo, sNo_next, clock, 1'b1 , 1'b0);
+	dffe fsYes(sYes, sYes_next, clock, 1'b1 , 1'b0);
+	dffe fsNo(sNo, sNo_next, clock, 1'b1 , 1'b0);
 
 	dffe fsStart(sStart, sGarbage_next, clock, 1'b1 , 1'b0);
 	dffe fsWhile(sProcess, sProcess_next, clock, 1'b1 , 1'b0);
