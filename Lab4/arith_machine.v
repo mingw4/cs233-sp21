@@ -67,23 +67,7 @@ module sign_extender(out, in);
         input [15:0] in;
         output [31:0] out;
 
-        assign out[31]   = in[15];
-        assign out[30]   = in[15];
-        assign out[29]   = in[15];
-        assign out[28]   = in[15];
-        assign out[27]   = in[15];
-        assign out[26]   = in[15];
-        assign out[25]   = in[15];
-        assign out[24]   = in[15];
-        assign out[23]   = in[15];
-        assign out[22]   = in[15];
-        assign out[21]   = in[15];
-        assign out[20]   = in[15];
-        assign out[19]   = in[15];
-        assign out[18]   = in[15];
-        assign out[17]   = in[15];
-        assign out[16]   = in[15];
-        assign out[15:0] = in[15:0];
+        assign out = {{16{in[15]}}, in[15:0]};
 
     endmodule
 
@@ -91,22 +75,6 @@ module sign_extender(out, in);
         input [15:0] in;
         output [31:0] out;
 
-        assign out[31]   = 1'b0;
-        assign out[30]   = 1'b0;
-        assign out[29]   = 1'b0;
-        assign out[28]   = 1'b0;
-        assign out[27]   = 1'b0;
-        assign out[26]   = 1'b0;
-        assign out[25]   = 1'b0;
-        assign out[24]   = 1'b0;
-        assign out[23]   = 1'b0;
-        assign out[22]   = 1'b0;
-        assign out[21]   = 1'b0;
-        assign out[20]   = 1'b0;
-        assign out[19]   = 1'b0;
-        assign out[18]   = 1'b0;
-        assign out[17]   = 1'b0;
-        assign out[16]   = 1'b0;
-        assign out[15:0] = in[15:0];
+        assign out = {{16{1'b0}}, in[15:0]};
         
     endmodule
