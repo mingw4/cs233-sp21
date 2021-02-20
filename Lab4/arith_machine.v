@@ -13,16 +13,100 @@ module arith_machine(except, clock, reset);
 
     // DO NOT comment out or rename this module
     // or the test bench will break
-    register #(32) PC_reg( /* connect signals */ );
+ //control
+    wire enable = 1'b1;
+    wire [31:0] add4 = 4;
+    wire [31:0]PC_next;
+    wire [2:0]add = 3'b010;
+
+    wire overflow_, zero_, negative_; // useless
+    register #(32) PC_reg(PC, PC_next, clock, enable, reset);
+
+    alu32 PC_4(PC_next, overflow_, zero_, negative_, PC, add4, add);
+    // DO NOT comment out or rename this module
+    // or the test bench will break
+    instruction_memory im(inst, PC[31:2]);
+
+    //decode
+    wire rd_src, writeenable;
+    wire [1:0] alu_src2;
+    wire [2:0] alu_op;
+    mips_decode decode1(rd_src, writeenable, alu_src2, alu_op, except, inst[31:26], inst[5:0]);
+
+    //first mux decision
+    wire [4:0]wnum;
+    mux2v #(5) rdrt(wnum, inst[15:11], inst[20:16], rd_src);
+    
+    //second mux decision
+    wire [31:0]wtemp;
+    wire [31:0]wdata;
+    wire [31:0]A_data, B_data;
+    wire [31:0]Sext, Zext;
+    sign_extender s1(Sext, inst[15:0]);//sign extender
+    zero_extender z1(Zext, inst[15:0]);//zero extender
+    mux3v #(32) getW_1(wtemp, B_data, Sext, Zext, alu_src2);
+
+    //final ALU
+    wire overflow, zero, negative;
+    alu32 getW_2(wdata, overflow, zero, negative, A_data, wtemp, alu_op);
+    
 
     // DO NOT comment out or rename this module
     // or the test bench will break
-    instruction_memory im( /* connect signals */ );
-
-    // DO NOT comment out or rename this module
-    // or the test bench will break
-    regfile rf ( /* connect signals */ );
-
+    // inst[25:21] = rs_num
+    // inst[20:16] = rt_num
+    regfile rf (A_data, B_data,
+                inst[25:21], inst[20:16], wnum, wdata, 
+                writeenable, clock, reset); 
+    
     /* add other modules */
    
 endmodule // arith_machine
+
+module sign_extender(out, in);
+        input [15:0] in;
+        output [31:0] out;
+
+        assign out[31]   = in[15];
+        assign out[30]   = in[15];
+        assign out[29]   = in[15];
+        assign out[28]   = in[15];
+        assign out[27]   = in[15];
+        assign out[26]   = in[15];
+        assign out[25]   = in[15];
+        assign out[24]   = in[15];
+        assign out[23]   = in[15];
+        assign out[22]   = in[15];
+        assign out[21]   = in[15];
+        assign out[20]   = in[15];
+        assign out[19]   = in[15];
+        assign out[18]   = in[15];
+        assign out[17]   = in[15];
+        assign out[16]   = in[15];
+        assign out[15:0] = in[15:0];
+
+    endmodule
+
+    module zero_extender(out, in);
+        input [15:0] in;
+        output [31:0] out;
+
+        assign out[31]   = 1'b0;
+        assign out[30]   = 1'b0;
+        assign out[29]   = 1'b0;
+        assign out[28]   = 1'b0;
+        assign out[27]   = 1'b0;
+        assign out[26]   = 1'b0;
+        assign out[25]   = 1'b0;
+        assign out[24]   = 1'b0;
+        assign out[23]   = 1'b0;
+        assign out[22]   = 1'b0;
+        assign out[21]   = 1'b0;
+        assign out[20]   = 1'b0;
+        assign out[19]   = 1'b0;
+        assign out[18]   = 1'b0;
+        assign out[17]   = 1'b0;
+        assign out[16]   = 1'b0;
+        assign out[15:0] = in[15:0];
+        
+    endmodule
