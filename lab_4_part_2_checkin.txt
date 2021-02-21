@@ -1,0 +1,6 @@
+Grades for version committed on time
+	arithmetic machine: 80.0 / 80
+		
+Total: 80.0 / 80
+
+Final Score: 80.0 / 80
