@@ -50,7 +50,7 @@ module mips_decode(alu_op, writeenable, rd_src, alu_src2, except, control_type,
     wire lbu_ = (opcode == 6'b100100); //I
     wire sw_ = (opcode == 6'b101011); //I
     wire sb_ = (opcode == 101000); //I
-    wire addm_ = (opcode == 6'b000000) & (funct == 6'101100); //R
+    wire addm_ = (opcode == 6'b000000) & (funct == 6'b101100); //R
 
     assign rd_src = (addi_ | andi_ | ori_ | xori_ | lui_ | lw_ | lbu_ | sw_ | sb_);
     assign writeenable = ~(bne_ | beq_ | j_ | jr_ | sw_ | sb_ | except);
