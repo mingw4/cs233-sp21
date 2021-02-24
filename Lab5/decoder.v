@@ -29,4 +29,44 @@ module mips_decode(alu_op, writeenable, rd_src, alu_src2, except, control_type,
     input  [5:0] opcode, funct;
     input        zero;
 
+    wire add = ((opcode == 6'b000000) & (funct == 6'b100000));
+    wire sub = ((opcode == 6'b000000) & (funct == 6'b100010));
+    wire and_ = ((opcode == 6'b000000) & (funct == 6'b100100));
+    wire or_ = ((opcode == 6'b000000) & (funct == 6'b100101));
+    wire nor_ = ((opcode == 6'b000000) & (funct == 6'b100111));
+    wire xor_ = ((opcode == 6'b000000) & (funct == 6'b100110));
+    wire addi = (opcode == 6'b001000);
+    wire andi = (opcode == 6'b001100);
+    wire ori = (opcode == 6'b001101);
+    wire xori = (opcode == 6'b001110);
+
+    wire bne = (opcode == 6'b000101); //I
+    wire beq = (opcode == 6'b000100); //I
+    wire j = (opcode == 6'b000010); //j
+    wire jr = (opcode == 6'b000000) & (funct == 6'b001000); //R
+    wire lui = (opcode == 6'b001111); //i
+    wire slt = (opcode == 6'b000000) & (funct == 6'b101010); //R
+    wire lw = (opcode == 6'b100011); //I
+    wire lbu = (opcode == 6'b100100); //I
+    wire sw = (opcode == 6'b101011); //I
+    wire sb = (opcode == 101000); //I
+    wire addm = (opcode == 6'b000000) & (funct == 6'101100); //R
+
+    assign re_src = ;
+    assign writeenable = ;
+    assign except = ;
+    assign alu_src2[0] = ;
+    assign alu_src2[1] = ;
+    assign alu_op[0] = ;
+    assign alu_op[1] = ;
+    assign alu_op[2] = ;
+    assign control_type[0] = ;
+    assign control_type[1] = ;
+    assign mem_read = ;
+    assign word_we = ;
+    assign byte_load = ;
+    assign slt = 
+    assign lui = ;
+    assign addm = ;
+
 endmodule // mips_decode
