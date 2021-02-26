@@ -23,9 +23,9 @@ main:
 	sw	$0, 0($2)	#			test stores
 	lw	$12, 0($2)	# $12 = 0
 	sb	$4, 2($2)	
-	lw	$13, 0($2)	# $13 = 0x00be0000
+	lw	$13, 0($2)	# $13 = 0x00330000
 
-	addm	$18, $2, $2	# $18 = 0x10bf0000
+	addm	$18, $2, $2	# $18 = 0x10340000
 
 	lw	$14, 16($2)	# $14 = target = 0x0000005c
 	jr	$14  		#  PC = 0x0000005c	test indirect branches
