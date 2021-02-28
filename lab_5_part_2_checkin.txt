@@ -1,0 +1,6 @@
+Grades for version committed on time
+	full machine: 13.79 / 80
+		
+Total: 13.79 / 80
+
+Final Score: 13.79 / 80
