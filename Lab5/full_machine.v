@@ -8,100 +8,115 @@ module full_machine(except, clock, reset);
     output      except;
     input       clock, reset;
 
+    wire wr_enable;
+    wire rd_src;
+    wire overflow;
+    wire zero;
+    wire negative;
+    wire mem_read;
+    wire word_we;
+    wire byte_we;
+    wire byte_load;
+    wire lui;
+    wire slt;
+    wire addm;
+    
     wire [31:0] inst;  
     wire [31:0] PC;  
-    //alu add_PC+4
-    wire [31:0] add4 = 4;
-    wire [31:0]PC_4, PC_branch, branchOffset, PC_next;
-    wire [2:0]add = 3'b010; 
-    alu32 PCadd4(PC_4, , , , PC, add4, add);
-    
-    // alu add_branchOffset
-    
-    alu32 PCaddB(PC_branch, , , , PC_4, branchOffset, add);
-
-    // decoder outputs
     wire [2:0] alu_op;
-    wire [1:0] alu_src2;
-    wire enable = 1;
-    wire writeenable, rd_src, except;
+    wire [31:0] zero_;
+    wire [31:0] one_;
+    wire [31:0] two_;
     wire [1:0] control_type;
-    wire zero, overflow, negative;
-    wire [31:0]jumpTo;
-    wire mem_read, word_we, byte_we, byte_load, slt, lui, addm;
-    mips_decode decode1(alu_op, writeenable, rd_src, alu_src2, except, control_type,
-                   mem_read, word_we, byte_we, byte_load, slt, lui, addm,
-                   inst[31:26], inst[5:0], zero);
+    wire [1:0] alu_src2;
+    wire [4:0] W_addr;
+    wire [31:0] W_data, B, rtData, sign_extended, zero_extended, rsData,  out, data_out, PCnext;
+    wire [7:0] byte_out;
+	wire [31:0] byte_load_one, slt_one, lui_zero, lui_one, branchoffset, mem_read_one, mem_read_zero, addr, addm_out, lui_out;
+    assign branchoffset[31:2] = sign_extended[29:0]; 
+	assign branchoffset[1:0] = 0;
+    wire enable = 1'b1;
 
-    //controler mux 
-    wire [31:0]w_1, w_2;
-    wire [31:0]wdata;
-    wire [31:0]A_data, B_data;
-    wire [31:0]Sext, lui_in, Zext;
-    assign jumpTo[31:28] = PC_4[31:28];//pc_4 or pc?
-    assign jumpTo[27:2] = inst[25:0];
-    assign jumpTo[1:0] = 0;
-    mux4v #(32)control(PC_next, PC_4, PC_branch, jumpTo, A_data, control_type);
-   
-    // DO NOT comment out or rename this module
-    // or the test bench will break
-    register #(32) PC_reg(PC, PC_next, clock, enable, reset);
 
     // DO NOT comment out or rename this module
     // or the test bench will break
-    
+    register #(32) PC_reg(PC, PCnext, clock, enable, reset);
+
+    // DO NOT comment out or rename this module
+    // or the test bench will break
     instruction_memory im(inst, PC[31:2]);
-    
-    //mux decision-rt/rd
-    wire [4:0]wnum;
-    mux2v #(5) rdrt(wnum, inst[15:11], inst[20:16], rd_src);
-    
-    //mux decision for B input in alu out
-    
-    zero_extender z1(Zext, inst[15:0]);//zero extender
-    sign_extender s1(Sext, inst[15:0]);//sign extender
-    assign lui_in[31:16] = inst[15:0];
-    assign lui_in[15:0] = 0; 
-    assign branchOffset[31:2] = Sext[29:0];
-    assign branchOffset[1:0] = 0;
-    
-    mux3v #(32) getW_1(w_1, B_data, Sext, Zext, alu_src2);
 
     // DO NOT comment out or rename this module
     // or the test bench will break
-    regfile rf (A_data, B_data,
-                inst[25:21], inst[20:16], wnum, wdata, 
-                writeenable, clock, reset);
-
-    alu32 getW_2(w_2, overflow, zero, negative, A_data, w_1, alu_op);
-
-    wire [31:0]negative_32, w_3;
-    assign negative_32[0] = negative;
-    assign negative_32[31:1] = 0;
-    mux2v #(32) getW_3(w_3, w_2, negative_32, slt);
-    wire [31:0]data_out;
-    data_mem memo(data_out, w_2, B_data, word_we, byte_we, clock, reset);
-    wire[31:0] byte_;
-    assign byte_[31:8] = 0;
-    mux4v #(8) getbyte(byte_[7:0], data_out[7:0], data_out[15:8], data_out[23:16], data_out[31:24], w_2[1:0]);
-    wire[31:0] w_4;
-    mux2v #(32) byte_mux(w_4, data_out, byte_, byte_load);
-    wire[31:0] w_5;
-    mux2v #(32) mem_mux(w_5, w_3, w_4, mem_read);
-    mux2v #(32) lui_mux(wdata, w_4, lui_in, lui);
-
-    
+    regfile rf (rsData, rtData, inst[25:21], inst[20:16], W_addr, W_data, wr_enable, clock, reset);
 
     /* add other modules */
 
+    //The upper left mux4
+    mux4v upper_left_4(PCnext, zero_, one_, two_, rsData, control_type);      
+    alu32 a1(zero_, , , , PC, 32'h4, `ALU_ADD);                         //Port0
+    alu32 a2(one_, , , , zero_, branchoffset, `ALU_ADD);                //Port1
+    assign two_[31:28] = PC[31:28];                                     //Port2
+    assign two_[27:2] = inst[25:0];
+    assign two_[1:0] = 2'b0;
+
+    //rd_src mux that select rd or rt (leftmost mux2)
+    mux2v #(5) leftmost_2(W_addr, inst[15:11], inst[20:16], rd_src);
+
+    //sign extender and zero extender
+    sign_extender s0(sign_extended, inst[15:0]);
+    zero_extender z1(zero_extended, inst[15:0]);
+
+    //alu_src2 controller
+    mux3v alu_src2_(B, rtData, sign_extended, zero_extended, alu_src2);
+
+    //From A and B to out
+    alu32 a0(out, overflow, zero, negative, rsData, B, alu_op);
+
+    //addm controller
+    mux2v addm_(addr, out, rsData, addm);	
+	alu32 a3(addm_out, , , , data_out, rtData, `ALU_ADD);
+
+    //Data_Memory
+	data_mem dm(data_out, addr, rtData, word_we, byte_we, clock, reset);
+
+    //the most rightsided mux4
+	mux4v #(8) rightmost_4(byte_out, data_out[7:0], data_out[15:8], data_out[23:16], data_out[31:24], out[1:0]);
+
+    //extend the bytes and the most rightsided mux2
+    assign byte_load_one[31:8] = 0;
+	assign byte_load_one[7:0] = byte_out[7:0];
+	mux2v rightmost_2(mem_read_one, data_out, byte_load_one, byte_load);
+
+    //fix slt
+    assign slt_one[31:1] = 0;
+	assign slt_one[0] = negative ^ overflow;
+
+    //slt controller
+	mux2v slt_(mem_read_zero, out, slt_one, slt);
+
+    //mem_read_
+	mux2v mem_read_(lui_zero, mem_read_zero, mem_read_one, mem_read);
+
+    //lui controller
+    assign lui_one[31:16] = inst[15:0];
+	assign lui_one[15:0] = 0;
+	mux2v lui_(lui_out, lui_zero, lui_one, lui);
+
+	mux2v lui_addm_out(W_data, lui_out, addm_out, addm);
+
+    //decoder
+    mips_decode d0(alu_op, wr_enable, rd_src, alu_src2, except, control_type,
+                   mem_read, word_we, byte_we, byte_load, slt, lui, addm,
+                   inst[31:26], inst[5:0], zero);
+
 endmodule // full_machine
 
-module sign_extender(out, in);
-    input [15:0] in;
+module sign_extender (out, inst);
     output [31:0] out;
-
-    assign out = {{16{in[15]}}, in[15:0]};
-
+    input [15:0] inst;
+    assign out[31:16] = {16{inst[15]}};
+    assign out[15:0] = inst[15:0];
 endmodule
 
 module zero_extender(out, in);
@@ -110,4 +125,3 @@ module zero_extender(out, in);
     assign out = {{16{1'b0}}, in[15:0]};
         
 endmodule
-
