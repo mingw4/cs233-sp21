@@ -39,7 +39,7 @@
 craftable_recipes:
 li $s0, 5               #NUM_ITEMS
 li $s1, 10              #NUM_RECIPES
-li $s2, 32'h7fffffff    
+li $s2, 0x7fffffff   
 
 li $t0, 0               #recipe_idx
 coe_FOR1:
