@@ -37,7 +37,7 @@
 
 .globl craftable_recipes
 craftable_recipes:
-sub $sp, $sp, 36
+sub $sp, $sp, 32
 sw $ra, 0($sp)
 sw $s0, 4($sp)
 sw $s1, 8($sp)
@@ -46,7 +46,6 @@ sw $s3, 16($sp)
 sw $s4, 20($sp)
 sw $s5, 24($sp)
 sw $s6, 28($sp)
-sw $s7, 32($sp)
 
 move $s0, $a0                   #s0 = inventory[]
 move $s1, $a1                   #s1 = recipes[][]
@@ -94,8 +93,8 @@ IF11:
         li $t2, 1               #t2 = assigned = 1
 
 ENDIF1:
-        bne $t2, $zero, INCR2
-        sw $zero, 0($t7)
+        bne $t2, $zero, INCR2   #assigned == 0
+        sw $zero, 0($t7)        $addr_of_times_craftable[recipe_idx] =0
 
 
 INCR2:
@@ -125,7 +124,6 @@ lw $s3, 16($sp)
 lw $s4, 20($sp)
 lw $s5, 24($sp)
 lw $s6, 28($sp)
-lw $s7, 32($sp)
 
-add $sp, $sp, 36
+add $sp, $sp, 32
 jr $ra
