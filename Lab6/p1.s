@@ -94,7 +94,7 @@ IF11:
 
 ENDIF1:
         bne $t2, $zero, INCR2   #assigned == 0
-        sw $zero, 0($t7)        $addr_of_times_craftable[recipe_idx] =0
+        sw $zero, 0($t7)        #addr_of_times_craftable[recipe_idx] =0
 
 
 INCR2:
