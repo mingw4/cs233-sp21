@@ -52,7 +52,7 @@ move $s1, $a1                   #s1 = recipes[][]
 move $s2, $a2                   #s2 = times_craftable[]
 
 li $s3, 5                       #s3 = NUM_ITEMS num of col
-li $s4, 10                      #s4 = NUM_RECIPES 
+li $s4, 10                      #s4 = NUM_RECIPES num of row 
 li $s5, 0x7fffffff              #s5 = Largest positive number
 
 
@@ -68,7 +68,7 @@ FOR_LOOP1:
         li $t3, 0               #t3 = item_idx = 0
 
 FOR_LOOP2:
-        bge $t3, $s3, INCR1     #item_idx < NUM_ITEMS
+        bge $t3, $s3, FOR_END2          #item_idx < NUM_ITEMS
         mul $t4, $t0, $s3       #t4 = recipe_idx * num of col
         add $t4, $t4, $t3       #t4 = recipe_idx * num of col + col
         mul $t4, $t4, 4         #t4 = 4 * (recipe_idx * num of col + col)
@@ -76,7 +76,7 @@ FOR_LOOP2:
         lw $s6, 0($t4)          #s6 = addr_of_recipes[row][col]
 
 IF1:
-        ble $s6, $zero, ENDIF1
+        ble $s6, $zero, INCR2
         mul $t5, $t3, 4         #t5 = item_idx * 4
         add $t5, $t5, $s0       #t5 = addr_of_inventory[item_idx] = inventory[] + 4 * item_idx
         lw $t5, 0($t5)          #t5 = inventory[item_idx]
@@ -88,22 +88,22 @@ IF1:
 
 
 IF11:
-        bge $t6, $t8, ENDIF1    #times_item_req < times_craftable[recipe_idx]
+        bge $t6, $t8, INCR2    #times_item_req < times_craftable[recipe_idx]
         sw $t6, 0($t7)          #times_craftable[recipe_idx] = times_item_req
         li $t2, 1               #t2 = assigned = 1
 
-ENDIF1:
-        bne $t2, $zero, INCR2   #assigned == 0
-        sw $zero, 0($t7)        #addr_of_times_craftable[recipe_idx] =0
 
 
 INCR2:
         addi $t3, $t3, 1        #t3 = t3 + 1 = item_idx + 1
         j FOR_LOOP2
 
-INCR1:
-        addi $t0, $t0, 1        #t0 = t0 + 1 = recipe_idx + 1
-        j FOR_LOOP1
+FOR_END2:
+        bne $zero, $t2, INCR1
+        sw $zero, 0($t1)
+        INCR1:
+                addi $t0, $t0, 1        #t0 = t0 + 1 = recipe_idx + 1
+                j FOR_LOOP1
 
 FOR_END1:
 
