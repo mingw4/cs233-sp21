@@ -1,0 +1,24 @@
+Grades for version committed on time
+	craftable_recipes: 0.0 / 20
+			*Failed test: craft test 1
+				*Your output: 2 3 0 0 0 0 0 0 0 0 
+		
+			*Failed test: craft test 2
+				*Your output: 0 0 0 0 0 0 0 0 0 0 
+		
+			*Failed test: craft test 3
+				*Your output: 9 9 0 0 0 0 0 0 0 0 
+		
+			*Failed test: craft test 4
+				*Your output: 7 7 0 0 0 0 0 0 0 0 
+		
+			*Failed test: craft test 5
+				*Your output: 0 1 1 2 3 0 0 0 0 0 
+		
+			*Failed test: craft test 6
+				*Your output: 10 0 0 0 0 0 0 0 0 0 
+		
+		
+Total: 0.0 / 20
+
+Final Score: 0.0 / 20
