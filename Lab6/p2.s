@@ -40,7 +40,7 @@ sw $s5, 24($sp)
 
 li $s0, 5               #s0 = PATTERN_SIZE = 5
 li $s1, 12              #s1 = EDGE = 16 - 5 + 1 = 12
-li $s2, 16              $s2 = 16 = MAP_SIZE
+li $s2, 16              #s2 = 16 = MAP_SIZE
 li $t0, 0               #t0 = row = 0
 
 FOR0:
@@ -60,22 +60,24 @@ FOR0:
                                 bge $t3, $s0, INCR2          #t3 = pat_col < s0 = PATTERN_SIZE
                                 mul $t4, $t2, $s0               #t4 = pat_row * PATTERN_SIZE
                                 add $t4, $t4, $t3               #t4 = pat_row * PATTERN_SIZE + pat_col
+                                mul $t4, $t4, 4
                                 add $t4, $t4, $a1               #t4 = Addr_pattern[pat_row][pat_col]
                                 lw $t4, 0($t4)                  #t4 = pattern[pat_row][pat_col]
                                 add $t5, $t0, $t2               #t5 = row + pat_row
                                 mul $t5, $t5, $s2               #t5 = (row + pat_row) * MAP_SIZE
                                 add $t5, $t5, $t1               #t5 = (row + pat_row) * MAP_SIZE + col
                                 add $t5, $t5, $t3               #t5 = (row + pat_row) * MAP_SIZE + (col + pat_col)
+                                mul $t5, $t5, 4
                                 add $t5, $t5, $a2               #t5 = Addr_map[row + pat_row][col + pat_col]
-                                lw $t5, 0($t5)                  $t5 = map[row + pat_row][col + pat_col]
+                                lw $t5, 0($t5)                  #t5 = map[row + pat_row][col + pat_col]
                                 
                                 IF0:
                                         bne $t4, $t5, IF1               #Addr_pattern[pat_row][pat_col] == map[row + pat_row][col + pat_col]
-                                        addi $s3, $3, 1                 #s3 = sum += 1
+                                        addi $s3, $s3, 1                 #s3 = sum += 1
                                 IF1:
                                         ble $s3, $a0, INCR3             #s3 = sum > a0 = threshold
-                                        sll $t6, $t0, 16                #t6 = t5 << 16 = row << 16
-                                        or $v0, $t6, $t1                #return (row << 16) | col
+                                        sll $t6, $t0, 16                #t6 = t0 << 16 = row << 16
+                                        or $v0, $t6, $t1                #(row << 16) | col
                                         j END
                         
                         INCR3:
@@ -94,7 +96,7 @@ INCR0:
         j FOR0
 
 FOR0_END:
-        li $v0, -1              #return -1
+        li $v0, -1              #-1
         j END
 
 
