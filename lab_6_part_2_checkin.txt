@@ -1,0 +1,6 @@
+Grades for version committed on time
+	pattern_match: 10.0 / 60
+		
+Total: 10.0 / 60
+
+Final Score: 10.0 / 60
