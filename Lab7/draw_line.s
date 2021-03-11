@@ -27,7 +27,7 @@
 draw_line:
 
 lw $t0, 4($a2)                  #t0 = width = canvas->width
-li $t1 = 1                      #t1 = step_size = 1
+li $t1, 1                      #t1 = step_size = 1
 sub $t2, $a1, $a0               #t2 = end_pos - start_pos
 
 IF:
@@ -54,13 +54,12 @@ FOR:
         mfhi $s1                #s1 = t3 % t0 = pos % width
         lb $s2, 8($a2)          #s2 = pattern
         lw $s3, 12($a2)         #s3 = canvas->canvas_addr
-        lw $s4, 4($a2)          #s4 = NUM_COLUMNS
-        mul $s4, $s4, $s0       #s4 = pos / width * NUM_COLUMNS
-        add $s4, $s4, $s1       #s4 = pos / width * NUM_COLUMNS + pos % width
 
-        mul $s4, $s4, 4
-        add $s4, $s4, $s3       #canvas->canvas[pos / width][pos % width]canvas_addr
-        sb $s2, 0($s4)          #canvas->canvas[pos / width][pos % width] = canvas->pattern
+        mul $s0, $s0, 4         #s0 = 4 * pos / width
+        add $s0, $s0, $s3       #s0 = addr_canavas->canvas[pos / width]
+        lw $s0, 0($s0)          #s0 = canavas->canvas[pos / width]
+        add $s0, $s0, $s1       #s0 = addr_canvas->canvas[pos / width][pos % width]
+        sb $s2, 0($s0)
         add $t3, $t3, $t1       #pos += step_size
 
 
