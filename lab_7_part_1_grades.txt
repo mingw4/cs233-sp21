@@ -1,0 +1,9 @@
+Grades for version committed on time
+	draw_line1: 20.0 / 20
+			*Passed test: draw_lines1
+			*Passed test: draw_lines2
+			*Passed test: draw_lines3
+		
+Total: 20.0 / 20
+
+Final Score: 20.0 / 20
