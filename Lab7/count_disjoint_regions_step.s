@@ -42,7 +42,7 @@ sw $s6, 28($sp)
 
 move $s0, $zero                         #s0 = region_count = 0
 move $s1, $zero                         #s1 = row = 0
-move $s2, $zero                         #s2 = col = 0
+
 lw $s3, 0($a1)                          #s3 = canvas->height
 lw $s4, 4($a1)                          #s4 = canvas->width
 move $s5, $a0                           #s5 = a0 = marker
@@ -50,6 +50,7 @@ move $s6, $a1                           #s6 = a1 = addr_canvas
 
 FOR1:
         bge $s1, $s3, END               #s1 = row >= canvas->height = s3
+        move $s2, $zero                         #s2 = col = 0
 FOR2:
         bge $s2, $s4, INCR1             #s2 = col >= canvas->width = s4
         lw $t0, 12($a1)                 #t0 = canvas->canvas
@@ -60,9 +61,9 @@ FOR2:
         lb $t2, 0($t1)                  #t2 = curr_char = canvas[row][rol]
 
 IF:
-        lb $t3, 8($a1)                  #t3 = canvas->pattern
+        lb $t3, 8($s6)                  #t3 = canvas->pattern
         beq $t2, $t3, INCR2             #curr_char == canvas->pattern
-        beq $t2, $a0, INCR2             #curr_char == marker
+        beq $t2, $s5, INCR2             #curr_char == marker
 
         addi $s0, $s0, 1
         move $a0, $s1
@@ -75,10 +76,10 @@ IF:
         move $a1, $s6
 
 INCR2:
-        addi $s2, $s2, 1
+        addi $s2, $s2, 1                #col = col + 1
         j FOR2
 INCR1:
-        addi $s1, $s1, 1
+        addi $s1, $s1, 1                #row = row + 1
         j FOR1
 END:
         move $v0, $s0
