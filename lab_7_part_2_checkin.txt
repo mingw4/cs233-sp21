@@ -1,0 +1,10 @@
+Grades for version committed on time
+	flood_fill: 24.0 / 30
+		
+	count_disjoint_regions_step: 0.0 / 30
+		
+	count_disjoint_regions: 0.0 / 20
+		
+Total: 24.0 / 80
+
+Final Score: 24.0 / 80
