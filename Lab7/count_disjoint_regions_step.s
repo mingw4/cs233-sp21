@@ -71,10 +71,15 @@ IF:
         move $a3, $s6
         jal flood_fill
 
+        move $a0, $s5
+        move $a1, $s6
+
 INCR2:
         addi $s2, $s2, 1
+        j FOR2
 INCR1:
         addi $s1, $s1, 1
+        j FOR1
 END:
         move $v0, $s0
 
