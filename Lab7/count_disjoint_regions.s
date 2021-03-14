@@ -54,12 +54,14 @@ count_disjoint_regions:
 FOR:
 
         bge $s3, $s4, END               #s3 = i >= lines->num_lines
-        lw $t0, 4($s0)                  #t0 = lines->coords
+        lw $t0, 4($s0)                  #t0 = addr_lines->coords
         lw $t0, 0($t0)                  #t0 = lines->coords[0]
         mul $t1, $s3, 4                 #t1 = 4 * s3 = 4 * i
         add $t0, $t0, $t1               #t0 = addr_lines->coords[0][i]
         lw $t0, 0($t0)                  #t0 = start_pos = line->coords[0][i]
-        lw $t2, 4($s0)                  #t2 = lines->coords
+
+        
+        lw $t2, 4($s0)                  #t2 = addr_lines->coords
         lw $t2, 4($t2)                  #t2 = lines->coorde[1]
         add $t2, $t2, $t1               #t2 = addr_lines->coords[1][i]
         lw $t2, 0($t2)                  #t2 = end_pos =  addr_lines->coords[1][i]
