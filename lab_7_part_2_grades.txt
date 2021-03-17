@@ -1,0 +1,34 @@
+Grades for version committed on time
+	flood_fill: 24.0 / 30
+			*Passed test: flood_fill1
+			*Failed test: flood_fill2
+				*Your output: Canvas struct:
+		  height = 5 
+		  width = 5 
+		  pattern = # 
+		  canvas = 
+		  ..#..
+		  ..#..
+		  #####
+		  .@#..
+		  .@#..
+		
+			*Passed test: flood_fill3
+			*Passed test: flood_fill4
+			*Passed test: flood_fill5
+		
+	count_disjoint_regions_step: 30.0 / 30
+			*Passed test: step1
+			*Passed test: step2
+			*Passed test: step3
+			*Passed test: step4
+		
+	count_disjoint_regions: 20.0 / 20
+			*Passed test: disjoint_regions1
+			*Passed test: disjoint_regions2
+			*Passed test: disjoint_regions3
+			*Passed test: disjoint_regions4
+		
+Total: 74.0 / 80
+
+Final Score: 74.0 / 80
