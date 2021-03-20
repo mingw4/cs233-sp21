@@ -18,20 +18,15 @@ module machine(clk, reset);
    wire [31:0]  rd1_data, rd2_data, B_data, alu_out_data, load_data, wr_data;
 
    //Your extra wires go here
+   wire [31:0]  MemToReg_out, c0rd_data;
+   wire         new_MemRead, new_MemWrite, TimerInterrupt, TimerAddress, TakenInterrupt;
+   wire [29:0]  EPC;
+   wire [31:2]  ERET_out, Taken_Interupt_out;
 
-   wire [31:0] mfc_in, c0_rd_data;
-   wire [29:0] EPC;
-   wire [31:2] eret_out, intrp_out;
-   wire TimerAddress, TakenInterrupt, TimerInterrupt;
+   mux2v #(30) eret_mux(ERET_out, next_PC[31:2], EPC, ERET);
+   mux2v #(30) taken_interupt_mux(Taken_Interupt_out, ERET_out, 30'b100000000000000000000001100000, TakenInterrupt);
 
-
-
-
-
-
-
-
-   register #(30, 30'h100000) PC_reg(PC[31:2], next_PC[31:2], clk, /* enable */1'b1, reset);
+   register #(30, 30'h100000) PC_reg(PC[31:2], Taken_Interupt_out, clk, /* enable */1'b1, reset);
    assign PC[1:0] = 2'b0;  // bottom bits hard coded to 00
    adder30 next_PC_adder(PC_plus4, PC[31:2], 30'h1);
    adder30 target_PC_adder(PC_target, PC_plus4, imm[29:0]);
@@ -50,23 +45,20 @@ module machine(clk, reset);
    mux2v #(32) imm_mux(B_data, rd2_data, imm, ALUSrc);
    alu32 alu(alu_out_data, zero, negative, ALUOp, rd1_data, B_data);
 
-   data_mem data_memory(load_data, alu_out_data, rd2_data, (MemRead & ~TimerAddress), (MemWrite & ~TimerAddress), clk, reset);
+   data_mem data_memory(load_data, alu_out_data, rd2_data, new_MemRead, new_MemWrite, clk, reset);
 
-   mux2v #(32) wb_mux(wr_data, alu_out_data, load_data, MemToReg);
+   mux2v #(32) wb_mux(MemToReg_out, alu_out_data, load_data, MemToReg);
    mux2v #(5) rd_mux(wr_regnum, rt, rd, RegDst);
    
    //Connect your new modules below
-
-   mux2v #(30) eret_mux(eret_out, next_PC[31:2], EPC, ERET);
-   mux2v #(30) intrp_mux(intrp_out, eret_out, 30'b100000000000000000000001100000, TakenInterrupt);
-   cp0 cp0_(rd2_data, EPC,TakenInterrupt, rd2_data, rd, next_PC, MTC0, ERET, TimerInterrupt, clk, reset);
-   mux2v mfc0_(wr_data, mfc_in, c0_rd_data, MFC0);
-   timer timer_(TimerInterrupt, load_data, TimerAddress, rd2_data, alu_out_data, MemRead, MemWrite, clk, reset);
-
-
-
-
-
    
+   cp0 CP_0(c0rd_data, EPC, TakenInterrupt, rd2_data, rd, next_PC, TimerInterrupt, MTC0, ERET, clk, reset);
+   timer timer_(TimerInterrupt, load_data, TimerAddress, alu_out_data, rd2_data, MemRead, MemWrite, clk, reset);
+   
+   assign NotIO = TimerAddress;
+   assign new_MemRead = MemRead & ~TimerAddress;
+   assign new_MemWrite = MemWrite & ~TimerAddress;
+
+   mux2v mfc0_mux(wr_data, MemToReg_out, c0rd_data, MFC0);
 
 endmodule // machine
