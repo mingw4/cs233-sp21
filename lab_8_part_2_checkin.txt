@@ -2,36 +2,6 @@ Grades for version committed on time
 	coprocessor 0: 35.0 / 35
 		
 	interrupts datapath: 11.67 / 35
-			*Failed test: timer read
-				*Your output: 0xxxxxxxxx
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Passed test: control flow
-			*Failed test: interrupt handling
-				*Your output: 0x10010000
-			*Failed test: interrupt handling
-				*Your output: 0x10010000
 		
 Total: 46.67 / 70
 
