@@ -142,14 +142,14 @@ COLLECT_SHEEP:
 
 NORTH_TO_STONE:
 
-    ble $t2, 28, COLLECT_STONE
+    ble $t2, 36, COLLECT_STONE
     li $t4, 270                                 #t4 = 270
     sw $t4, ANGLE                               #set angle to 270
     li $t4, 1                                   #t4 = 1
     sw $t4, ANGLE_CONTROL                       #set angle control to absolute angle
     li $t4, 8                                   #t4 = 8
     sw $t4, VELOCITY                            #set VELOCITY to 8
-    lw $t2, BOT_Y                               #t1 = new_BOT_Y
+    lw $t2, BOT_Y                               #t2 = new_BOT_Y
     j NORTH_TO_STONE
 
 COLLECT_STONE:
@@ -162,7 +162,7 @@ COLLECT_STONE:
                                                 #above keep the location still
 
 
-    li $t4, 0x00002425                          #t4 = STONE = 36, 37
+    li $t4, 0x00002503                          #t4 = STONE = 37, 3
     sw $t4, BREAK_BLOCK                         #break the STONE block 
     j DO_CRAFT
 
