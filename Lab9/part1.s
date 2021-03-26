@@ -136,13 +136,41 @@ COLLECT_SHEEP
     ##above keep the location still
 
 
-    li $t4, 8h'00002425                         #t4 = wood = [36, 37]
+    li $t4, 8h'00002425                         #t4 = SHEEP = [36, 37]
     sw $t4, BREAK_BLOCK                         #break the SHEEP block 
     j NORTH_TO_STONE
 
 NORTH_TO_STONE:
 
-    
+    ble $t2, 28, COLLECT_STONE
+    li $t4, 270                                 #t4 = 270
+    sw $t4, ANGLE                               #set angle to 270
+    li $t4, 1                                   #t4 = 1
+    sw $t4, ANGLE_CONTROL                       #set angle control to absolute angle
+    li $t4, 8                                   #t4 = 8
+    sw $t4, VELOCITY                            #set VELOCITY to 8
+    lw $t2, BOT_Y                               #t1 = new_BOT_Y
+    j NORTH_TO_STONE
+
+COLLECT_STONE:
+    li $t1, 0
+    sw $t1, ANGLE
+    li $t1, 1
+    sw $t1, ANGLE_CONTROL
+    li $t2, 0
+    sw $t2, VELOCITY
+    ##above keep the location still
+
+
+    li $t4, 8h'00002425                         #t4 = STONE = [36, 37]
+    sw $t4, BREAK_BLOCK                         #break the STONE block 
+    j DO_CRAFT
+
+DO_CRAFT:
+    li $t4, 7
+    sw $t4, CRAFT
+
+
 
 
 
