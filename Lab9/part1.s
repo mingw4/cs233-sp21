@@ -116,7 +116,7 @@ COLLECT_WOOD:
     j EAST_TO_SHEEP
 
 EAST_TO_SHEEP:
-    bge $t1, 292, COLLECT_SHEEP
+    bge $t1, 284, COLLECT_SHEEP
     li $t4, 0                                   #t4 = 0
     sw $t4, ANGLE                               #set angle to 0
     li $t4, 1                                   #t4 = 1
