@@ -80,24 +80,22 @@ main:
     
 
 SOUTH_TO_WOOD:
-    bge $t2, 284, EAST_TO_WOOD
+    bge $t2, 283, EAST_TO_WOOD
     li $t4, 90                                  #t4 = 90
     sw $t4, ANGLE                               #set angle to 90
     li $t4, 1                                   #t4 = 1
     sw $t4, ANGLE_CONTROL                       #set angle control to absolute angle
-    li $t4, 1                                  #t4 = 8
-    sw $t4, VELOCITY                            #set VELOCITY to 8
+    sw $t4, VELOCITY                            #set VELOCITY to 1
     lw $t2, BOT_Y                               #t2 = new_BOT_Y
     j SOUTH_TO_WOOD
 
 EAST_TO_WOOD:
-    bge $t1, 44, COLLECT_WOOD
+    bge $t1, 43, COLLECT_WOOD
     li $t4, 0                                   #t4 = 0
     sw $t4, ANGLE                               #set angle to 0
     li $t4, 1                                   #t4 = 1
     sw $t4, ANGLE_CONTROL                       #set angle control to absolute angle
-    li $t4, 1                                   #t4 = 1
-    sw $t4, VELOCITY                            #set VELOCITY to 8
+    sw $t4, VELOCITY                            #set VELOCITY to 1
     lw $t1, BOT_X                               #t1 = new_BOT_X
     j EAST_TO_WOOD
 
@@ -116,12 +114,11 @@ COLLECT_WOOD:
     j EAST_TO_SHEEP
 
 EAST_TO_SHEEP:
-    bge $t1, 284, COLLECT_SHEEP
+    bge $t1, 283, COLLECT_SHEEP
     li $t4, 0                                   #t4 = 0
     sw $t4, ANGLE                               #set angle to 0
     li $t4, 1                                   #t4 = 1
     sw $t4, ANGLE_CONTROL                       #set angle control to absolute angle
-    li $t4, 1                                   #t4 = 1
     sw $t4, VELOCITY                            #set VELOCITY to 1
     lw $t1, BOT_X                               #t1 = new_BOT_X
     j EAST_TO_SHEEP
@@ -142,13 +139,12 @@ COLLECT_SHEEP:
 
 NORTH_TO_STONE:
 
-    ble $t2, 28, COLLECT_STONE
+    ble $t2, 29, COLLECT_STONE
     li $t4, 270                                 #t4 = 270
     sw $t4, ANGLE                               #set angle to 270
     li $t4, 1                                   #t4 = 1
     sw $t4, ANGLE_CONTROL                       #set angle control to absolute angle
-    li $t4, 1                                   #t4 = 1
-    sw $t4, VELOCITY                            #set VELOCITY to 8
+    sw $t4, VELOCITY                            #set VELOCITY to 1
     lw $t2, BOT_Y                               #t1 = new_BOT_Y
     j NORTH_TO_STONE
 
