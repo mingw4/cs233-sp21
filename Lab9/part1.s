@@ -85,7 +85,7 @@ SOUTH_TO_WOOD:
     sw $t4, ANGLE                               #set angle to 90
     li $t4, 1                                   #t4 = 1
     sw $t4, ANGLE_CONTROL                       #set angle control to absolute angle
-    li $t4, 8                                   #t4 = 8
+    li $t4, 1                                  #t4 = 8
     sw $t4, VELOCITY                            #set VELOCITY to 8
     lw $t2, BOT_Y                               #t2 = new_BOT_Y
     j SOUTH_TO_WOOD
@@ -96,7 +96,7 @@ EAST_TO_WOOD:
     sw $t4, ANGLE                               #set angle to 0
     li $t4, 1                                   #t4 = 1
     sw $t4, ANGLE_CONTROL                       #set angle control to absolute angle
-    li $t4, 8                                   #t4 = 8
+    li $t4, 1                                   #t4 = 1
     sw $t4, VELOCITY                            #set VELOCITY to 8
     lw $t1, BOT_X                               #t1 = new_BOT_X
     j EAST_TO_WOOD
@@ -121,7 +121,7 @@ EAST_TO_SHEEP:
     sw $t4, ANGLE                               #set angle to 0
     li $t4, 1                                   #t4 = 1
     sw $t4, ANGLE_CONTROL                       #set angle control to absolute angle
-    li $t4, 8                                   #t4 = 8
+    li $t4, 1                                   #t4 = 1
     sw $t4, VELOCITY                            #set VELOCITY to 8
     lw $t1, BOT_X                               #t1 = new_BOT_X
     j EAST_TO_SHEEP
@@ -147,7 +147,7 @@ NORTH_TO_STONE:
     sw $t4, ANGLE                               #set angle to 270
     li $t4, 1                                   #t4 = 1
     sw $t4, ANGLE_CONTROL                       #set angle control to absolute angle
-    li $t4, 8                                   #t4 = 8
+    li $t4, 1                                   #t4 = 8
     sw $t4, VELOCITY                            #set VELOCITY to 8
     lw $t2, BOT_Y                               #t1 = new_BOT_Y
     j NORTH_TO_STONE
