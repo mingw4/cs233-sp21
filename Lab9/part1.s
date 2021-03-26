@@ -109,9 +109,9 @@ COLLECT_WOOD:
     sw $t1, ANGLE_CONTROL
     li $t2, 0
     sw $t2, VELOCITY
-    ##above keep the location still
+                                                #above keep the location still
 
-    li $t4, 8h'00000524                         #t4 = wood = [5, 36]
+    li $t4, 0x00000524                         #t4 = wood
     sw $t4, BREAK_BLOCK                         #break the wood block 
     j EAST_TO_SHEEP
 
@@ -126,7 +126,7 @@ EAST_TO_SHEEP:
     lw $t1, BOT_X                               #t1 = new_BOT_X
     j EAST_TO_SHEEP
 
-COLLECT_SHEEP
+COLLECT_SHEEP:
     li $t1, 0
     sw $t1, ANGLE
     li $t1, 1
@@ -136,7 +136,7 @@ COLLECT_SHEEP
     ##above keep the location still
 
 
-    li $t4, 8h'00002425                         #t4 = SHEEP = [36, 37]
+    li $t4, 0x00002425                         #t4 = SHEEP = [36, 37]
     sw $t4, BREAK_BLOCK                         #break the SHEEP block 
     j NORTH_TO_STONE
 
@@ -162,7 +162,7 @@ COLLECT_STONE:
     ##above keep the location still
 
 
-    li $t4, 8h'00002425                         #t4 = STONE = [36, 37]
+    li $t4, 0x00002503                         #t4 = STONE = [37, 3]
     sw $t4, BREAK_BLOCK                         #break the STONE block 
     j DO_CRAFT
 
