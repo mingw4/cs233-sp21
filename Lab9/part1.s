@@ -80,22 +80,24 @@ main:
     
 
 SOUTH_TO_WOOD:
-    bge $t2, 283, EAST_TO_WOOD
+    bge $t2, 284, EAST_TO_WOOD
     li $t4, 90                                  #t4 = 90
     sw $t4, ANGLE                               #set angle to 90
     li $t4, 1                                   #t4 = 1
     sw $t4, ANGLE_CONTROL                       #set angle control to absolute angle
-    sw $t4, VELOCITY                            #set VELOCITY to 1
+    li $t4, 8                                   #t4 = 8
+    sw $t4, VELOCITY                            #set VELOCITY to 8
     lw $t2, BOT_Y                               #t2 = new_BOT_Y
     j SOUTH_TO_WOOD
 
 EAST_TO_WOOD:
-    bge $t1, 43, COLLECT_WOOD
+    bge $t1, 44, COLLECT_WOOD
     li $t4, 0                                   #t4 = 0
     sw $t4, ANGLE                               #set angle to 0
     li $t4, 1                                   #t4 = 1
     sw $t4, ANGLE_CONTROL                       #set angle control to absolute angle
-    sw $t4, VELOCITY                            #set VELOCITY to 1
+    li $t4, 8                                   #t4 = 8
+    sw $t4, VELOCITY                            #set VELOCITY to 8
     lw $t1, BOT_X                               #t1 = new_BOT_X
     j EAST_TO_WOOD
 
@@ -107,23 +109,24 @@ COLLECT_WOOD:
     sw $t1, ANGLE_CONTROL
     li $t2, 0
     sw $t2, VELOCITY
-                                                #above keep the location still
+    ##above keep the location still
 
-    li $t4, 0x00000524                         #t4 = wood
+    li $t4, 8h'00000524                         #t4 = wood = [5, 36]
     sw $t4, BREAK_BLOCK                         #break the wood block 
     j EAST_TO_SHEEP
 
 EAST_TO_SHEEP:
-    bge $t1, 283, COLLECT_SHEEP
+    bge $t1, 292, COLLECT_SHEEP
     li $t4, 0                                   #t4 = 0
     sw $t4, ANGLE                               #set angle to 0
     li $t4, 1                                   #t4 = 1
     sw $t4, ANGLE_CONTROL                       #set angle control to absolute angle
-    sw $t4, VELOCITY                            #set VELOCITY to 1
+    li $t4, 8                                   #t4 = 8
+    sw $t4, VELOCITY                            #set VELOCITY to 8
     lw $t1, BOT_X                               #t1 = new_BOT_X
     j EAST_TO_SHEEP
 
-COLLECT_SHEEP:
+COLLECT_SHEEP
     li $t1, 0
     sw $t1, ANGLE
     li $t1, 1
@@ -133,18 +136,19 @@ COLLECT_SHEEP:
     ##above keep the location still
 
 
-    li $t4, 0x00002425                         #t4 = SHEEP = [36, 37]
+    li $t4, 8h'00002425                         #t4 = SHEEP = [36, 37]
     sw $t4, BREAK_BLOCK                         #break the SHEEP block 
     j NORTH_TO_STONE
 
 NORTH_TO_STONE:
 
-    ble $t2, 29, COLLECT_STONE
+    ble $t2, 28, COLLECT_STONE
     li $t4, 270                                 #t4 = 270
     sw $t4, ANGLE                               #set angle to 270
     li $t4, 1                                   #t4 = 1
     sw $t4, ANGLE_CONTROL                       #set angle control to absolute angle
-    sw $t4, VELOCITY                            #set VELOCITY to 1
+    li $t4, 8                                   #t4 = 8
+    sw $t4, VELOCITY                            #set VELOCITY to 8
     lw $t2, BOT_Y                               #t1 = new_BOT_Y
     j NORTH_TO_STONE
 
@@ -158,7 +162,7 @@ COLLECT_STONE:
     ##above keep the location still
 
 
-    li $t4, 0x00002503                         #t4 = STONE = [37, 3]
+    li $t4, 8h'00002425                         #t4 = STONE = [36, 37]
     sw $t4, BREAK_BLOCK                         #break the STONE block 
     j DO_CRAFT
 
