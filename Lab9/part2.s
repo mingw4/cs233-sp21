@@ -74,6 +74,108 @@ main:
     sw $t2, VELOCITY
         
     # YOUR CODE GOES HERE!!!!!!
+
+    lw $t1, BOT_X                               #t1 = BOT_X
+    lw $t2, BOT_Y                               #t2 = BOT_Y
+    
+
+SOUTH_TO_WOOD:
+    bge $t2, 284, EAST_TO_WOOD
+    li $t4, 90                                  #t4 = 90
+    sw $t4, ANGLE                               #set angle to 90
+    li $t4, 1                                   #t4 = 1
+    sw $t4, ANGLE_CONTROL                       #set angle control to absolute angle
+    li $t4, 8                                   #t4 = 8
+    sw $t4, VELOCITY                            #set VELOCITY to 8
+    lw $t2, BOT_Y                               #t2 = new_BOT_Y
+    j SOUTH_TO_WOOD
+
+EAST_TO_WOOD:
+    bge $t1, 44, COLLECT_WOOD
+    li $t4, 0                                   #t4 = 0
+    sw $t4, ANGLE                               #set angle to 0
+    li $t4, 1                                   #t4 = 1
+    sw $t4, ANGLE_CONTROL                       #set angle control to absolute angle
+    li $t4, 8                                   #t4 = 8
+    sw $t4, VELOCITY                            #set VELOCITY to 8
+    lw $t1, BOT_X                               #t1 = new_BOT_X
+    j EAST_TO_WOOD
+
+COLLECT_WOOD:
+
+    li $t4, 0
+    sw $t4, ANGLE
+    li $t4, 1
+    sw $t4, ANGLE_CONTROL
+    li $t4, 0
+    sw $t2, VELOCITY
+                                                #above keep the location still
+
+    li $t4, 0x00000524                          #t4 = wood = 5, 36
+    sw $t4, BREAK_BLOCK                         #break the wood block 
+    j EAST_TO_SHEEP
+
+EAST_TO_SHEEP:
+    bge $t1, 292, COLLECT_SHEEP
+    li $t4, 0                                   #t4 = 0
+    sw $t4, ANGLE                               #set angle to 0
+    li $t4, 1                                   #t4 = 1
+    sw $t4, ANGLE_CONTROL                       #set angle control to absolute angle
+    li $t4, 8                                   #t4 = 8
+    sw $t4, VELOCITY                            #set VELOCITY to 8
+    lw $t1, BOT_X                               #t1 = new_BOT_X
+    j EAST_TO_SHEEP
+
+COLLECT_SHEEP:
+    li $t4, 0
+    sw $t4, ANGLE
+    li $t4, 1
+    sw $t4, ANGLE_CONTROL
+    li $t4, 0
+    sw $t4, VELOCITY
+                                                #above keep the location still
+
+
+    li $t4, 0x00002425                          #t4 = SHEEP = 36, 37
+    sw $t4, BREAK_BLOCK                         #break the SHEEP block 
+    j NORTH_TO_STONE
+
+NORTH_TO_STONE:
+
+    ble $t2, 36, COLLECT_STONE
+    li $t4, 270                                 #t4 = 270
+    sw $t4, ANGLE                               #set angle to 270
+    li $t4, 1                                   #t4 = 1
+    sw $t4, ANGLE_CONTROL                       #set angle control to absolute angle
+    li $t4, 8                                   #t4 = 8
+    sw $t4, VELOCITY                            #set VELOCITY to 8
+    lw $t2, BOT_Y                               #t2 = new_BOT_Y
+    j NORTH_TO_STONE
+
+COLLECT_STONE:
+    li $t4, 0
+    sw $t4, ANGLE
+    li $t4, 1
+    sw $t4, ANGLE_CONTROL
+    li $t4, 0
+    sw $t4, VELOCITY
+                                                #above keep the location still
+
+
+    li $t4, 0x00002503                          #t4 = STONE = 37, 3
+    sw $t4, BREAK_BLOCK                         #break the STONE block 
+    j DO_CRAFT
+
+DO_CRAFT:
+    li $t4, 7
+    sw $t4, CRAFT
+
+
+
+
+
+
+
     
 loop: # Once done, enter an infinite loop so that your bot can be graded by QtSpimbot once 10,000,000 cycles have elapsed
     j loop
