@@ -199,12 +199,12 @@ COLLECT_SHEEP:
 NORTH_TO_STONE:
 
     ble $t2, 36, COLLECT_STONE
-    li $t4, 270                                 #t4 = 270
-    sw $t4, ANGLE                               #set angle to 270
+    li $t1, 270                                 #t4 = 270
+    sw $t1, ANGLE                               #set angle to 270
     li $t4, 1                                   #t4 = 1
     sw $t4, ANGLE_CONTROL                       #set angle control to absolute angle
-    li $t4, 8                                   #t4 = 8
-    sw $t4, VELOCITY                            #set VELOCITY to 8
+    li $t3, 8                                   #t4 = 8
+    sw $t3, VELOCITY                            #set VELOCITY to 8
     lw $t2, BOT_Y                               #t2 = new_BOT_Y
     j NORTH_TO_STONE
 
