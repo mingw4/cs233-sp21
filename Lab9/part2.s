@@ -43,6 +43,7 @@ GET_INVENTORY           = 0xffff2034
 ### Puzzle
 puzzle:     .byte 0:400
 solution:   .byte 0:256
+puzzle_received: .word 0
 #### Puzzle
 
 scanner_result: .byte 0 0 0
@@ -164,7 +165,24 @@ COLLECT_STONE:
 
     li $t4, 0x00002503                          #t4 = STONE = 37, 3
     sw $t4, BREAK_BLOCK                         #break the STONE block 
-    j DO_CRAFT
+
+    li $t0, 0                                   #t0 = i = 0
+    FOR:
+        bge $t0, 2, DO_CRAFT
+        sw $0, puzzle_received                  #puzzle_received = 0
+        la $t1, puzzle                          #t1 = &puzzle
+        sw $t1, REQUEST_PUZZLE                  #*REQUEST_PUZZLE = &puzzle
+
+        WHILE:
+            lw $t2, puzzle_received             #t2 = puzzle_received
+            bne $t2, 0, WHILE_END
+            j WHILE
+        
+        WHILE_END:
+            la $t3, solution                    #t3 = &solution
+            sw $t3, SUBMIT_SOLUTION             #*SUBMIT_SOLUTION = &solution
+            addi $t0, $t0, 1                    #i++
+            j FOR
 
 DO_CRAFT:
     li $t4, 7
@@ -178,7 +196,7 @@ DO_CRAFT:
 
     
 loop: # Once done, enter an infinite loop so that your bot can be graded by QtSpimbot once 10,000,000 cycles have elapsed
-    j loop
+    j main
     
 
 .kdata
@@ -253,11 +271,16 @@ timer_interrupt:
 request_puzzle_interrupt:
     sw      $0, REQUEST_PUZZLE_ACK
     #Fill in your puzzle interrupt code here
+    li $t5, 1
+    sw $t5, REQUEST_PUZZLE_ACK
+    sw $t5, puzzle_received
     j       interrupt_dispatch
 
 respawn_interrupt:
     sw      $0, RESPAWN_ACK
     #Fill in your respawn handler code here
+
+
     j       interrupt_dispatch
 
 non_intrpt:                         # was some non-interrupt
