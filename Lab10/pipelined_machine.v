@@ -37,7 +37,7 @@ module pipelined_machine(clk, reset);
     mips_decode decode(ALUOp, RegWrite, BEQ, ALUSrc, MemRead, MemWrite, MemToReg, RegDst,
                       opcode, funct);
 
-    // DO NOT comment out or rename this module
+    // DO NOT comment out or rename this module.
     // or the test bench will break
     regfile rf (rd1_data, rd2_data,
                rs, rt, wr_regnum, wr_data,
