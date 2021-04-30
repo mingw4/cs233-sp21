@@ -122,7 +122,7 @@ main:
     mtc0    $t4, $12
     
     # 判断是红色还是蓝色
-    lw      $t0, BOT_Y
+    li      $t0, BOT_X
     ble     $t0, 20, red
 
     # blue goes here!
@@ -149,7 +149,7 @@ for_blue:
     sw      $t0, REQUEST_PUZZLE
 
 pending_blue:
-    beq     $s1, 0, pending_blue
+    beq     $s1, 0, pending_
 
     la      $a2, sol_t
     la      $a1, puzzle
@@ -165,16 +165,7 @@ end_for_blue:
 
 move_up:
     lw      $t4, BOT_Y      # load spimbot y loc
-    ble     $t4, 124, turn_left_blue
-
-    li      $t0, 0x00002612
-    sw      $t0, BREAK_BLOCK
-
-    li      $t0, 0x00002611
-    sw      $t0, BREAK_BLOCK
-
-    li      $t0, 0x0000270f
-    sw      $t0, BREAK_BLOCK
+    ble     $t4, 140, turn_left_blue
 
     li      $t1, 270
     sw      $t1, ANGLE
@@ -182,84 +173,151 @@ move_up:
     sw      $t1, ANGLE_CONTROL
     li      $t2, 10
     sw      $t2, VELOCITY
-    j       move_up
+    j       move_down_blue
 
 turn_left_blue:
 
 
     lw      $t3, BOT_X      # load spimbot x loc
-    ble     $t3, 236, build_bed_blue
-
-    li      $t0, 0x0000230f
-    sw      $t0, BREAK_BLOCK
-
-    li      $t0, 0x0000220f
-    sw      $t0, BREAK_BLOCK
-
-    li      $t0, 0x0000210f
-    sw      $t0, BREAK_BLOCK
-
-    li      $t0, 0x0000200f
-    sw      $t0, BREAK_BLOCK
-
-    li      $t0, 0x00001f0f
-    sw      $t0, BREAK_BLOCK
-
-    li      $t0, 0x00001d0f
-    sw      $t0, BREAK_BLOCK
-
-    li      $t0, 0x00001d0e
-    sw      $t0, BREAK_BLOCK
-
-    li      $t0, 0x00001d10
-    sw      $t0, BREAK_BLOCK
-
-    li      $t0, 0x00001e0f
-    sw      $t0, BREAK_BLOCK
-
-    li      $t0, 0x00001c0f
-    sw      $t0, BREAK_BLOCK
-
+    ble     $t3, 124, build_bed
     
+    #wool collector
+    li      $t0, 0x00000111 # (x=1,y=17) 
+    sw      $t0, BREAK_BLOCK
+    li      $t0, 0x00000211 # (x=2,y=17) 
+    sw      $t0, BREAK_BLOCK
+    li      $t0, 0x00000311 # (x=3,y=17) 
+    sw      $t0, BREAK_BLOCK
+    li      $t0, 0x00000411 # (x=4,y=17) 
+    sw      $t0, BREAK_BLOCK
     
-    li      $t3, 5
-    sw      $t3, CRAFT          # build bed
-    li      $t3, 0x00051d0f     # place bed
-    sw      $t3, PLACE_BLOCK   
+    li      $t0, 0x00000212 # (x=2,y=18) 
+    sw      $t0, BREAK_BLOCK
+    li      $t0, 0x00000312 # (x=3,y=18) 
+    sw      $t0, BREAK_BLOCK
+    li      $t0, 0x00000412 # (x=4,y=18) 
+    sw      $t0, BREAK_BLOCK
+    li      $t0, 0x00000512 # (x=5,y=18) 
+    sw      $t0, BREAK_BLOCK
 
+    li      $t0, 0x00000413 # (x=4,y=19) 
+    sw      $t0, BREAK_BLOCK
 
+    #wood collector
+    li      $t0, 0x00000811 # (x=8,y=17) 
+    sw      $t0, BREAK_BLOCK
+    li      $t0, 0x00000813 # (x=8,y=19) 
+    sw      $t0, BREAK_BLOCK
 
-    li      $t1, 180
+    li      $t0, 0x00000911 # (x=9,y=17) 
+    sw      $t0, BREAK_BLOCK
+    li      $t0, 0x00000912 # (x=9,y=18) 
+    sw      $t0, BREAK_BLOCK
+    li      $t0, 0x00000913 # (x=9,y=19) 
+    sw      $t0, BREAK_BLOCK
+
+    li      $t0, 0x00000a11 # (x=10,y=17) 
+    sw      $t0, BREAK_BLOCK
+    li      $t0, 0x00000a12 # (x=10,y=18) 
+    sw      $t0, BREAK_BLOCK
+    li      $t0, 0x00000a13 # (x=10,y=19) 
+    sw      $t0, BREAK_BLOCK
+
+    li      $t0, 0x00000b11 # (x=11,y=17) 
+    sw      $t0, BREAK_BLOCK
+    li      $t0, 0x00000b12 # (x=11,y=18) 
+    sw      $t0, BREAK_BLOCK
+
+    li      $t0, 0x00000c12 # (x=12,y=18) 
+    sw      $t0, BREAK_BLOCK
+    li      $t0, 0x00000d12 # (x=13,y=18) 
+    sw      $t0, BREAK_BLOCK
+
+    #destroy tree
+    li      $t0, 0x00000e11 # (x=14,y=17) 
+    sw      $t0, BREAK_BLOCK
+    li      $t0, 0x00000f11 # (x=15,y=17) 
+    sw      $t0, BREAK_BLOCK
+    
+    # stone collector
+    #li      $t0, 0x00000c11 # (x=12,y=17) 
+    #sw      $t0, BREAK_BLOCK
+    #li      $t0, 0x00000c13 # (x=12,y=19) 
+    #sw      $t0, BREAK_BLOCK
+
+    li      $t0, 0x00000f10 # (x=15,y=19) 床下面的石头
+    sw      $t0, BREAK_BLOCK
+
+    li      $t0, 0x00001011 # (x=15,y=19) 床右面的石头
+    sw      $t0, BREAK_BLOCK
+
+    li      $t0, 0x00000d11 # (x=13,y=17) 
+    sw      $t0, BREAK_BLOCK
+    li      $t0, 0x00000d13 # (x=13,y=19) 
+    sw      $t0, BREAK_BLOCK
+
+    li      $t0, 0x00000e12 # (x=14,y=18) 
+    sw      $t0, BREAK_BLOCK
+    li      $t0, 0x00000e13 # (x=14,y=19) 
+    sw      $t0, BREAK_BLOCK
+
+    li      $t0, 0x00000f12 # (x=15,y=18) 
+    sw      $t0, BREAK_BLOCK
+    li      $t0, 0x00000f13 # (x=15,y=19) 
+    sw      $t0, BREAK_BLOCK
+
+    li      $t0, 0x00001011 # (x=16,y=17) 
+    sw      $t0, BREAK_BLOCK
+    li      $t0, 0x00001012 # (x=16,y=18) 
+    sw      $t0, BREAK_BLOCK
+
+    li      $t1, 0
     sw      $t1, ANGLE
     li      $t1, 1
     sw      $t1, ANGLE_CONTROL
-    li      $t2, 4
+    li      $t2, 2
     sw      $t2, VELOCITY
     j       turn_left_blue
 
 build_bed_blue:
 
-    li      $t1, 270
+    li      $t1, 0
     sw      $t1, ANGLE
     li      $t1, 1
     sw      $t1, ANGLE_CONTROL
     li      $t2, 0
     sw      $t2, VELOCITY
 
-    li      $t0, 0x00001d0f
-    sw      $t0, BREAK_BLOCK
-
-
     li      $t3, 5
     sw      $t3, CRAFT          # build bed
-    li      $t3, 0x00051d0f     # place bed
+
+    li      $t3, 0x00050f11     # place bed
     sw      $t3, PLACE_BLOCK    
 
-    
-    
-    
+    li      $t3, 4
+    sw      $t3, CRAFT          # build stone
+    li      $t3, 0x00040e11     # place stone on the left of the bed
+    sw      $t3, PLACE_BLOCK    
 
-    li      $t0, 0x1d0d #  19 drink water
+    li      $t3, 4
+    sw      $t3, CRAFT          # build stone
+    li      $t3, 0x00040f12     # place stone on the bot of the bed
+    sw      $t3, PLACE_BLOCK    
+
+    li      $t0, 0x00000f10 # (x=15,y=19) 
+    sw      $t0, BREAK_BLOCK
+
+    li      $t3, 4
+    sw      $t3, CRAFT          # build stone
+    li      $t3, 0x00040f10     # place stone on the top of the bed
+    sw      $t3, PLACE_BLOCK    
+
+    li      $t3, 4
+    sw      $t3, CRAFT          # build stone
+    li      $t3, 0x00041011     # place stone on the right of the bed
+    sw      $t3, PLACE_BLOCK   
+
+    li      $t0, 0x0f11 #  19 drink water
     sw      $t0, USE_BLOCK 
 
     
@@ -268,64 +326,103 @@ build_bed_blue:
 
 loop_blue: # Once done, enter an infinite loop so that your bot can be graded by QtSpimbot once 10,000,000 cycles have elapsed
 
-    li      $t0, 0x1d12 #  19 drink water
+    li      $t0, 0x00000e09 #  床左上的上面的石头 1
+    sw      $t0, BREAK_BLOCK
+
+    li      $t0, 0x00000f09 #  2
+    sw      $t0, BREAK_BLOCK
+    
+
+    li      $t0, 0x00000d10 #  床左上的左面的石头 4
+    sw      $t0, BREAK_BLOCK
+
+
+
+    li      $t0, 0x00000e10 #  床左上角的石头 5
+    sw      $t0, BREAK_BLOCK
+
+
+    li      $t0, 0x00000f10 #  床上的石头 6
+    sw      $t0, BREAK_BLOCK
+
+    li      $t3, 4
+    sw      $t3, CRAFT          # build stone
+    li      $t3, 0x00040f10     # place stone on the top of the bed
+    sw      $t3, PLACE_BLOCK    
+
+
+    li      $t0, 0x00001010 #  床右上角的树 7
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t0, 0x00001110 #  床右上角的树旁的树 8
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t0, 0x00000c11 #  9
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t0, 0x00000d11 #  10
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t0, 0x00000e11 #  11
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t3, 4
+    sw      $t3, CRAFT          # build stone
+    li      $t3, 0x00040e11     # place stone on the left of the bed
+    sw      $t3, PLACE_BLOCK    
+
+    li      $t0, 0x00001011 #  12
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t3, 4
+    sw      $t3, CRAFT          # build stone
+    li      $t3, 0x00041011     # place stone on the right of the bed
+    sw      $t3, PLACE_BLOCK    
+
+    li      $t0, 0x00001111 #  13
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t0, 0x00000d12 #  15
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t0, 0x00000e12 #  16
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t0, 0x00000f12 #  17
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t3, 4
+    sw      $t3, CRAFT          # build stone
+    li      $t3, 0x00040f12     # place stone on the right of the bed
+    sw      $t3, PLACE_BLOCK   
+
+    li      $t0, 0x00001012 #  18
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t0, 0x00000e13 #  20
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t0, 0x00000f13 #  21
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t0, 0x1112 #  19 drink water
     sw      $t0, USE_BLOCK
 
-
-    lw      $a0, BOT_X
-    lw      $a1, BOT_Y
-    jal     auto_collector
-
-    li      $t3, 4
-    sw      $t3, CRAFT          # build stonewall
-    li      $t0, 0x00001d0e
-    sw      $t0, PLACE_BLOCK
-
-    li      $t3, 4
-    sw      $t3, CRAFT          # build stonewall
-    li      $t0, 0x00001d10
-    sw      $t0, PLACE_BLOCK
-
-    li      $t3, 4
-    sw      $t3, CRAFT          # build stonewall
-    li      $t0, 0x00001e0f
-    sw      $t0, PLACE_BLOCK
-
-    li      $t3, 4
-    sw      $t3, CRAFT          # build stonewall
-    li      $t0, 0x00001c0f
-    sw      $t0, PLACE_BLOCK
-
-    li      $t3, 4
-    sw      $t3, CRAFT          # build stonewall 
-    li      $t0, 0x00001c10
-    sw      $t0, PLACE_BLOCK
-
-    li      $t3, 4
-    sw      $t3, CRAFT          # build stonewall 
-    li      $t0, 0x00001b10
-    sw      $t0, PLACE_BLOCK
-
-    li      $t3, 4
-    sw      $t3, CRAFT          # build stonewall 
-    li      $t0, 0x00001b0f
-    sw      $t0, PLACE_BLOCK
-
-    li      $t3, 4
-    sw      $t3, CRAFT          # build stonewall 
-    li      $t0, 0x00001b0e
-    sw      $t0, PLACE_BLOCK
-    
-   
-    
-    
-
-
-    li      $t0, 0x1d0d #  19 drink water
-    sw      $t0, USE_BLOCK 
-    
-
     j loop_blue
+
 
     j   end_me
 
@@ -528,10 +625,24 @@ build_bed:
 
 loop_: # Once done, enter an infinite loop so that your bot can be graded by QtSpimbot once 10,000,000 cycles have elapsed
 
-    lw      $a0, BOT_X
-    lw      $a1, BOT_Y
-    jal     auto_collector
+    li      $t0, 0x00000e09 #  床左上的上面的石头 1
+    sw      $t0, BREAK_BLOCK
 
+    li      $t0, 0x00000f09 #  2
+    sw      $t0, BREAK_BLOCK
+    
+
+    li      $t0, 0x00000d10 #  床左上的左面的石头 4
+    sw      $t0, BREAK_BLOCK
+
+
+
+    li      $t0, 0x00000e10 #  床左上角的石头 5
+    sw      $t0, BREAK_BLOCK
+
+
+    li      $t0, 0x00000f10 #  床上的石头 6
+    sw      $t0, BREAK_BLOCK
 
     li      $t3, 4
     sw      $t3, CRAFT          # build stone
@@ -539,32 +650,75 @@ loop_: # Once done, enter an infinite loop so that your bot can be graded by QtS
     sw      $t3, PLACE_BLOCK    
 
 
+    li      $t0, 0x00001010 #  床右上角的树 7
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t0, 0x00001110 #  床右上角的树旁的树 8
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t0, 0x00000c11 #  9
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t0, 0x00000d11 #  10
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t0, 0x00000e11 #  11
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
     li      $t3, 4
     sw      $t3, CRAFT          # build stone
     li      $t3, 0x00040e11     # place stone on the left of the bed
     sw      $t3, PLACE_BLOCK    
 
+    li      $t0, 0x00001011 #  12
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
 
     li      $t3, 4
     sw      $t3, CRAFT          # build stone
     li      $t3, 0x00041011     # place stone on the right of the bed
     sw      $t3, PLACE_BLOCK    
 
+    li      $t0, 0x00001111 #  13
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t0, 0x00000d12 #  15
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t0, 0x00000e12 #  16
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t0, 0x00000f12 #  17
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
 
     li      $t3, 4
     sw      $t3, CRAFT          # build stone
     li      $t3, 0x00040f12     # place stone on the right of the bed
     sw      $t3, PLACE_BLOCK   
 
-    li      $t3, 4
-    sw      $t3, CRAFT          # build stone
-    li      $t3, 0x00040f13     # place stone on the right of the bed
-    sw      $t3, PLACE_BLOCK   
+    li      $t0, 0x00001012 #  18
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t0, 0x00000e13 #  20
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
+
+    li      $t0, 0x00000f13 #  21
+    sw      $t0, BREAK_BLOCK
+    sw      $t0, ATTACK
 
     li      $t0, 0x1112 #  19 drink water
     sw      $t0, USE_BLOCK
-
-    
 
     j loop_
 
@@ -1023,96 +1177,3 @@ recur:
 	add	$sp, $sp, 12
 end_33:
 	jr 	$ra
-
-.globl auto_collector
-auto_collector:
-    li      $t3, 0x00000000                 # assign t3 to 0 in hex
-    div     $t4, $a0, 8                     # t4 = current X position in tile
-    div     $t5, $a1, 8                     # t5 = current Y position in tile
-    mul     $t4, $t4, 256                   # t4 * 16^2 = 0x0000XX00 in decimal
-    add     $t3, $t3, $t5                   
-    add     $t3, $t3, $t4                   # t3 = current position of bot in form of 0x0000XXYY
-    #sw      $t3, BREAK_BLOCK                # break block at (x, y)
-    #sw      $t3, ATTACK                     # ATTACK (x, y)
-
-    add     $t4, $t3, 1                 
-    sw      $t4, BREAK_BLOCK                # break block at (x, y+1)
-    sw      $t4, ATTACK                     # ATTACK (x, y+1)
-    add     $t4, $t3, 2                 
-    sw      $t4, BREAK_BLOCK                # break block at (x, y+2)
-    sw      $t4, ATTACK                     # ATTACK (x, y+2)
-    add     $t4, $t3, 3
-    sw      $t4, BREAK_BLOCK                # break block at (x, y+3)
-    sw      $t4, ATTACK                     # ATTACK (x, y+3)
-    
-    add     $t4, $t3, -1               
-    sw      $t4, BREAK_BLOCK                # break block at (x, y-1)
-    sw      $t4, ATTACK                     # ATTACK (x, y-1)
-    add     $t4, $t3, -2                 
-    sw      $t4, BREAK_BLOCK                # break block at (x, y-2)
-    sw      $t4, ATTACK                     # ATTACK (x, y-2)
-    add     $t4, $t3, -3                 
-    sw      $t4, BREAK_BLOCK                # break block at (x, y-3)
-    sw      $t4, ATTACK                     # ATTACK (x, y-3)
-
-    add     $t4, $t3, 256                 
-    sw      $t4, BREAK_BLOCK                # break block at (x+1, y)
-    sw      $t4, ATTACK                     # ATTACK (x+1, y)
-    add     $t4, $t3, 512                 
-    sw      $t4, BREAK_BLOCK                # break block at (x+2, y)
-    sw      $t4, ATTACK                     # ATTACK (x+2, y)
-    add     $t4, $t3, 768                 
-    sw      $t4, BREAK_BLOCK                # break block at (x+3, y)
-    sw      $t4, ATTACK                     # ATTACK (x+3, y)
-
-
-    add     $t4, $t3, -256                 
-    sw      $t4, BREAK_BLOCK                # break block at (x-1, y)
-    sw      $t4, ATTACK                     # ATTACK (x-1, y)
-    add     $t4, $t3, -512                 
-    sw      $t4, BREAK_BLOCK                # break block at (x-2, y)
-    sw      $t4, ATTACK                     # ATTACK (x-2, y)
-    add     $t4, $t3, -768                 
-    sw      $t4, BREAK_BLOCK                # break block at (x-3, y)
-    sw      $t4, ATTACK                     # ATTACK (x-3, y)
-
-    add     $t4, $t3, 257                   
-    sw      $t4, BREAK_BLOCK                # break block at (x+1, y+1)
-    sw      $t4, ATTACK                     # ATTACK (x+1, y+1)
-    add     $t4, $t3, 255                   
-    sw      $t4, BREAK_BLOCK                # break block at (x+1, y-1)
-    sw      $t4, ATTACK                     # ATTACK (x+1, y-1)
-    add     $t4, $t3, -257                   
-    sw      $t4, BREAK_BLOCK                # break block at (x-1, y-1)
-    sw      $t4, ATTACK                     # ATTACK (x-1, y-1)
-    add     $t4, $t3, -255                   
-    sw      $t4, BREAK_BLOCK                # break block at (x-1, y+1)
-    sw      $t4, ATTACK                     # ATTACK (x-1, y+1)
-
-    add     $t4, $t3, 258                   
-    sw      $t4, BREAK_BLOCK                # break block at (x+1, y+2)
-    sw      $t4, ATTACK                     # ATTACK (x+1, y+2)
-    add     $t4, $t3, 254                  
-    sw      $t4, BREAK_BLOCK                # break block at (x+1, y-2)
-    sw      $t4, ATTACK                     # ATTACK (x+1, y-2)
-    add     $t4, $t3, -258                   
-    sw      $t4, BREAK_BLOCK                # break block at (x-1, y-2)
-    sw      $t4, ATTACK                     # ATTACK (x-1, y-2)
-    add     $t4, $t3, -254                  
-    sw      $t4, BREAK_BLOCK                # break block at (x-1, y+2)
-    sw      $t4, ATTACK                     # ATTACK (x-1, y+2)
-
-    add     $t4, $t3, 513                   
-    sw      $t4, BREAK_BLOCK                # break block at (x+2, y+1)
-    sw      $t4, ATTACK                     # ATTACK (x+2, y+1)
-    add     $t4, $t3, 511                  
-    sw      $t4, BREAK_BLOCK                # break block at (x+2, y-1)
-    sw      $t4, ATTACK                     # ATTACK (x+2, y-1)
-    add     $t4, $t3, -513                   
-    sw      $t4, BREAK_BLOCK                # break block at (x-2, y-1)
-    sw      $t4, ATTACK                     # ATTACK (x-2, y-1)
-    add     $t4, $t3, -511                  
-    sw      $t4, BREAK_BLOCK                # break block at (x-2, y+1)
-    sw      $t4, ATTACK                     # ATTACK (x-2, y+1)
-
-    jr      $ra
